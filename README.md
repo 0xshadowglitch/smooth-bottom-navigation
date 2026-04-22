@@ -8,6 +8,12 @@ A lightweight, premium, and fully customizable bottom navigation bar for Android
 
 ---
 
+## 📸 Preview
+
+<p align="center">
+  <img src="screenshots/preview.png" width="300" alt="Smooth Bottom Navigation Preview" />
+</p>
+
 ## ✨ Features
 
 - **Fluid Transitions**: Smooth morphing from icon to label with a dynamic indicator dot.
