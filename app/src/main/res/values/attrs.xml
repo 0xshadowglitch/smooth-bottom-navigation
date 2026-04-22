@@ -7,5 +7,6 @@
         <attr name="rippleColor" format="color" />
         <attr name="defaultSelected" format="integer" />
         <attr name="pillCornerRadius" format="dimension" />
+        <attr name="navIconTint" format="color" />
     </declare-styleable>
 </resources>
