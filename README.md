@@ -1,38 +1,38 @@
-# smooth-bottom-navigation
+# Smooth Bottom Navigation 🚀
 
-A lightweight, fully customizable, smooth animated bottom navigation view for Android — without Compose.
+[![Platform](https://img.shields.io/badge/platform-Android-green.svg)](https://developer.android.com)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.9.0-purple.svg)](https://kotlinlang.org)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Designed for modern apps that need **premium animations**, **zero layout jank**, and **full XML customization**.
+A lightweight, premium, and fully customizable bottom navigation bar for Android. Designed to provide fluid, high-end animations without the overhead of heavy libraries or Jetpack Compose.
 
 ---
 
-## 🚀 Overview
+## ✨ Features
 
-* Smooth animated navigation with icon → label transition
-* Selected item shows label + animated bottom dot
-* Unselected items show only icons
-* Equal-width items (supports **2–5 items**)
-* Highly configurable via XML attributes
-* Respects system navigation bar insets automatically
-* Lightweight — no extra dependencies
+- **Fluid Transitions**: Smooth morphing from icon to label with a dynamic indicator dot.
+- **Micro-Animations**: Translation and scaling effects for a premium native feel.
+- **Zero Layout Jank**: Optimized for performance with stable layout structures.
+- **Highly Configurable**: Control colors, strokes, corner radius, and icons directly via XML.
+- **System-Aware**: Automatically handles system navigation bar insets for edge-to-edge layouts.
+- **Dynamic Content**: Supports 2 to 5 navigation items with easy menu-based setup.
 
 ---
 
 ## 📦 Installation
 
-Copy the following into your project:
+To integrate **Smooth Bottom Navigation** into your project, simply copy these components:
 
-1. `CustomBottomNavigationView.kt` → `app/src/main/java/.../`
-2. `view_custom_bottom_nav.xml` → `res/layout/`
-3. Required drawables → `res/drawable/`
-4. `attrs.xml`, `colors.xml`, `dimens.xml` → `res/values/`
-5. A menu resource → `res/menu/`
-
-That’s it — no Gradle changes required.
+1.  **View Class**: [CustomBottomNavigationView.kt](app/src/main/java/com/example/custombottomnavigation/CustomBottomNavigationView.kt)
+2.  **Layout**: [view_custom_bottom_nav.xml](app/src/main/res/layout/view_custom_bottom_nav.xml)
+3.  **Attributes**: [attrs.xml](app/src/main/res/values/attrs.xml)
+4.  **Drawables**: `bg_pill.xml` and `circle_blue.xml` (found in `res/drawable`)
 
 ---
 
 ## 🧩 XML Usage
+
+Add the view to your layout file (e.g., `activity_main.xml`):
 
 ```xml
 <com.example.custombottomnavigation.CustomBottomNavigationView
@@ -42,157 +42,95 @@ That’s it — no Gradle changes required.
     android:paddingVertical="4dp"
     android:paddingHorizontal="16dp"
     android:layout_marginBottom="16dp"
+    android:elevation="8dp"
     app:menu="@menu/bottom_nav_menu"
     app:defaultSelected="0"
-    app:pillStrokeWidth="0.5dp"
-    app:pillStrokeColor="?colorOutline"
-    app:pillBackgroundColor="@android:color/white"
+    app:pillStrokeWidth="1dp"
+    app:pillStrokeColor="#E0E0E0"
+    app:pillBackgroundColor="#FFFFFF"
     app:pillCornerRadius="36dp"
-    app:navIconTint="@color/icon_default"
+    app:navIconTint="#333333"
     app:layout_constraintBottom_toBottomOf="parent" />
 ```
 
----
-
-## 📜 Menu Example (`res/menu/bottom_nav_menu.xml`)
+### Create a Menu Resource (`res/menu/bottom_nav_menu.xml`)
 
 ```xml
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/nav_item1" android:icon="@android:drawable/ic_menu_view" android:title="item1" />
-    <item android:id="@+id/nav_item2" android:icon="@android:drawable/ic_menu_camera" android:title="item2" />
-    <item android:id="@+id/nav_item3" android:icon="@android:drawable/ic_menu_agenda" android:title="item3" />
-    <item android:id="@+id/nav_item4" android:icon="@android:drawable/ic_menu_manage" android:title="item4" />
+    <item 
+        android:id="@+id/nav_home" 
+        android:icon="@drawable/ic_home" 
+        android:title="Home" />
+    <item 
+        android:id="@+id/nav_search" 
+        android:icon="@drawable/ic_search" 
+        android:title="Search" />
+    <item 
+        android:id="@+id/nav_profile" 
+        android:icon="@drawable/ic_profile" 
+        android:title="Profile" />
 </menu>
 ```
 
 ---
 
-## 🎛️ Custom XML Attributes
+## 🎛️ Customization Attributes
 
-| Attribute             | Type      | Description              | Default |
-|-----------------------|-----------|--------------------------|---------|
-| `menu`                | reference | Menu resource with items | –       |
-| `defaultSelected`     | integer   | Default selected index   | 1       |
-| `pillStrokeWidth`     | dimension | Pill stroke width        | 2dp     |
-| `pillStrokeColor`     | color     | Pill border color        | #0B78FF |
-| `pillBackgroundColor` | color     | Pill background          | #FFFFFF |
-| `pillCornerRadius`    | dimension | Rounded pill radius      | 36dp    |
+| Attribute | Format | Description | Default |
+| :--- | :--- | :--- | :--- |
+| `app:menu` | `reference` | The menu resource defining items, icons, and labels. | – |
+| `app:defaultSelected` | `integer` | The index (0-indexed) of the item to select on start. | `1` |
+| `app:pillStrokeWidth` | `dimension` | Width of the outer container border. | `2dp` |
+| `app:pillStrokeColor` | `color` | Color of the outer container border. | `#0B78FF` |
+| `app:pillBackgroundColor`| `color` | Background color of the navigation bar. | `#FFFFFF` |
+| `app:pillCornerRadius` | `dimension` | Corner radius for the "pill" shape. | `36dp` |
+| `app:navIconTint` | `color` | Optional tint applied to all unselected icons. | – |
+
 ---
 
 ## 🧑‍💻 Programmatic Usage
 
+### Handling Item Selection
+
 ```kotlin
-binding.customNav.onItemSelected = { index ->
+val customNav = findViewById<CustomBottomNavigationView>(R.id.custom_nav)
+
+customNav.onItemSelected = { index ->
     when (index) {
-        0 -> loadFragment(HomeFragment())
-        1 -> loadFragment(SearchFragment())
-        2 -> loadFragment(UploadFragment())
-        3 -> loadFragment(ProfileFragment())
+        0 -> println("Home Selected")
+        1 -> println("Search Selected")
+        2 -> println("Profile Selected")
     }
 }
-
-// Change selected item
-binding.customNav.setSelected(0)
-
-// Update dynamically
-binding.customNav.setIcon(0, R.drawable.custom_icon)
-binding.customNav.setLabel(0, "Custom Label")
 ```
 
----
-
-## 📱 System Insets (Navigation Bar)
-
-Already handled internally:
+### Changing State Dynamically
 
 ```kotlin
-ViewCompat.setOnApplyWindowInsetsListener(binding.customNav) { v, insets ->
-    val sys = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-    v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, v.paddingBottom + sys.bottom)
-    insets
-}
+// Change selection via code
+customNav.setSelected(2)
+
+// Update icon or label at runtime
+customNav.setIcon(0, R.drawable.ic_home_filled)
+customNav.setLabel(0, "Dashboard")
 ```
 
 ---
 
-## ✨ Features
+## 📱 Troubleshooting
 
-* Smooth icon → label → dot animation
-* Zero layout-jank thanks to fixed-height structure
-* Full customization via XML
-* Handles system insets
-* Dynamic menu loading
-* Supports 2–5 navigation items
-* Lightweight and dependency-free
+- **Icons not showing?** Ensure your menu items have `android:icon` attributes pointing to valid drawables.
+- **Selection index mismatch?** Remember the indices are **0-based**. If you have 4 items, valid indices are 0, 1, 2, 3.
+- **Layout jank?** The view uses `animateLayoutChanges="true"` internally; ensure your parent container isn't forcing heavy layout passes during animations.
 
 ---
 
-## 📁 Required Resources
+## 📄 License
 
-### Drawables
-
-* `bg_pill.xml` → pill background
-* `circle_blue.xml` → animated dot
-
-### `colors.xml`
-
-```xml
-<color name="default_pill_stroke_color">#0B78FF</color>
-<color name="default_pill_bg_color">#FFFFFF</color>
-```
-
-### `dimens.xml`
-
-```xml
-<dimen name="default_pill_stroke_width">2dp</dimen>
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🧠 Tips & Best Practices
-
-* Use `app:menu` for clean configuration
-* Use `app:defaultSelected` to set initial tab
-* Customize `app:pillCornerRadius` for rounded look
-* Set `app:pillStrokeWidth="0dp"` for a flat pill
-* Add more items by extending XML + Kotlin array setup
-
----
-
-## 🛠 Troubleshooting
-
-| Problem                       | Fix                                 |
-|-------------------------------|-------------------------------------|
-| Icons missing                 | Check menu item drawable references |
-| Stroke invisible              | Increase `pillStrokeWidth`          |
-| Default selection not working | Ensure index is 0-based             |
-
----
-
-## 🧩 Example Activity
-
-```kotlin
-binding.customNav.onItemSelected = { index ->
-    val fragment = when (index) {
-        0 -> HomeFragment()
-        1 -> SearchFragment()
-        2 -> UploadFragment()
-        3 -> ProfileFragment()
-        else -> HomeFragment()
-    }
-
-    supportFragmentManager.beginTransaction()
-        .replace(R.id.container, fragment)
-        .commit()
-}
-```
-
----
-
-## 📝 Summary
-
-`smooth-bottom-navigation` is a lightweight, fully customizable, smooth animated bottom navigation component for Android. Ideal for modern apps that need unique, fluid navigation without relying on Material3 BottomNavigationView.
-
----
-
-For advanced tweaks or contributions, explore `CustomBottomNavigationView.kt` in the source code.
+<p align="center">
+  Developed with ❤️ for the Android Community
+</p>
